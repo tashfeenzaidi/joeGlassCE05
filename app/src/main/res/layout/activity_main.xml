@@ -4,14 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".student.MainActivity">
 
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="#C0C0C0"
-        android:dividerHeight="1dp"
-        android:listSelector="#C0C0C0"/>
+        android:layout_height="wrap_content"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/empty_list"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

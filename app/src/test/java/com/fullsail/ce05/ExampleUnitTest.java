@@ -1,4 +1,4 @@
-package com.example.joeglass_ce05;
+package com.fullsail.ce05;
 
 import org.junit.Test;
 

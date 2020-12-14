@@ -1,10 +1,14 @@
-package com.example.joeglass_ce05;
+package com.fullsail.ce05.student;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.fullsail.ce05.R;
 
 import java.util.List;
 
@@ -40,6 +44,11 @@ public class BookListAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.book_item, viewGroup, false);
         }
 
+        ImageView thumbnail = view.findViewById(R.id.thumbnail);
+        TextView title = view.findViewById(R.id.title);
+
+        thumbnail.setImageResource(R.mipmap.ic_launcher_round);
+        title.setText(list.get(i).getTitle());
         return view;
     }
 }
