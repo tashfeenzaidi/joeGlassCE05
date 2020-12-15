@@ -1,3 +1,8 @@
+// Joe Glass
+
+// JAV2 - C20201201
+
+// ArticleContentProvider
 package com.fullsail.ce05.student;
 
 import android.content.ContentProvider;
@@ -18,6 +23,7 @@ import androidx.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Objects;
 
+
 public class ArticleContentProvider extends ContentProvider {
 
     static final String PROVIDER_NAME = "com.fullsail.ce05.student.provider";
@@ -30,7 +36,7 @@ public class ArticleContentProvider extends ContentProvider {
     static final String body = "body";
     static final int uriCode = 1;
     static final UriMatcher uriMatcher;
-    private static HashMap<String, String> values;
+    private static final HashMap<String, String> values = new HashMap<>();
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(PROVIDER_NAME, "articles", uriCode);
@@ -42,10 +48,7 @@ public class ArticleContentProvider extends ContentProvider {
         Context context = getContext();
         DatabaseHelper dbHelper = new DatabaseHelper(context);
         db = dbHelper.getWritableDatabase();
-        if (db != null) {
-            return true;
-        }
-        return false;
+        return db != null;
     }
 
     @Nullable
@@ -54,12 +57,10 @@ public class ArticleContentProvider extends ContentProvider {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
         qb.setTables(TABLE_NAME);
 
-        switch (uriMatcher.match(uri)) {
-            case uriCode:
-                qb.setProjectionMap(values);
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown URI " + uri);
+        if (uriMatcher.match(uri) == uriCode) {
+            qb.setProjectionMap(values);
+        } else {
+            throw new IllegalArgumentException("Unknown URI " + uri);
         }
         if (s1 == null || Objects.equals(s1, "")) {
             s1 = id;
@@ -73,12 +74,10 @@ public class ArticleContentProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        switch (uriMatcher.match(uri)) {
-            case uriCode:
-                return "com.fullsail.ce05.student.provider/articles";
-            default:
-                throw new IllegalArgumentException("Unsupported URI: " + uri);
+        if (uriMatcher.match(uri) == uriCode) {
+            return "com.fullsail.ce05.student.provider/articles";
         }
+        throw new IllegalArgumentException("Unsupported URI: " + uri);
     }
 
     @Nullable
