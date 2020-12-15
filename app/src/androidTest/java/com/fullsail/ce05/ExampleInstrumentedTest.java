@@ -1,4 +1,4 @@
-package com.example.joeglass_ce05;
+package com.fullsail.ce05;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.joeglass_ce05", appContext.getPackageName());
+        assertEquals("com.fullsail.ce05", appContext.getPackageName());
     }
 }
