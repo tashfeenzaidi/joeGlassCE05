@@ -27,12 +27,16 @@ public class BookListAdapter extends BaseAdapter {
     Bitmap bmp = null;
     URL url = null;
 
+    OnItemClickListner onItemClickListner;
+
+
     private List<BookModel> list;
     LayoutInflater inflater ;
-    public BookListAdapter(Context context, List<BookModel> book) {
+    public BookListAdapter(Context context, List<BookModel> book,OnItemClickListner listner) {
         this.context = context;
         this.list = book;
         inflater = LayoutInflater.from(context);
+        this.onItemClickListner = listner;
     }
 
     @Override
@@ -60,8 +64,12 @@ public class BookListAdapter extends BaseAdapter {
         TextView title = view.findViewById(R.id.title);
 
         Glide.with(context).load(list.get(i).getThumbnail()).into(thumbnail);
-
         title.setText(list.get(i).getTitle());
+
+        view.setOnClickListener(view1 -> onItemClickListner.onClick(i));
+
         return view;
     }
+
+
 }

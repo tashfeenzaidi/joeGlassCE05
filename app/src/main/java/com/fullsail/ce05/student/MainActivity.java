@@ -2,12 +2,14 @@ package com.fullsail.ce05.student;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,7 +21,7 @@ import com.fullsail.ce05.R;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements OnItemClickListner{
 
     private ListView listView;
     static final String PROVIDER_NAME = "com.fullsail.ce05.provider";
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void setBookList(){
-        BookListAdapter listAdapter = new BookListAdapter(getApplicationContext(),BookModel.getList());
+        BookListAdapter listAdapter = new BookListAdapter(getApplicationContext(),BookModel.getList(),this);
         listView.setAdapter(listAdapter);
     }
 
@@ -77,5 +79,23 @@ public class MainActivity extends AppCompatActivity{
         values.put(ArticleContentProvider.body,"articles body");
         getContentResolver().insert(ArticleContentProvider.CONTENT_URI,values);
 
+    }
+
+    @Override
+    public void onClick(int id) {
+        showDialog(BookModel.list.get(id));
+    }
+
+    public void showDialog(BookModel book){
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        alertDialog.setTitle(book.getTitle());
+        if (book.getDescription().equals("")){
+            alertDialog.setMessage("No available description");
+        }else {
+            alertDialog.setMessage(book.getDescription());
+        }
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                (dialog, which) -> dialog.dismiss());
+        alertDialog.show();
     }
 }
