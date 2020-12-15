@@ -1,3 +1,8 @@
+// Joe Glass
+
+// JAV2 - C20201201
+
+// MainActivity
 package com.fullsail.ce05.student;
 
 import androidx.appcompat.app.AlertDialog;
@@ -14,7 +19,8 @@ import com.fullsail.ce05.R;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements OnItemClickListner{
+
+public class MainActivity extends AppCompatActivity implements OnItemClickListener {
 
     private ListView listView;
     static final String PROVIDER_NAME = "com.fullsail.ce05.provider";
