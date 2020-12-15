@@ -1,15 +1,8 @@
 package com.fullsail.ce05.student;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.CursorLoader;
-import androidx.loader.content.Loader;
 
-import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,9 +19,6 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListne
     private ListView listView;
     static final String PROVIDER_NAME = "com.fullsail.ce05.provider";
     static final String URL = "content://" + PROVIDER_NAME +"/books";
-    String[] projection = {
-            "_id","title","thumbnail","description","book_id"
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +28,10 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListne
         TextView label = findViewById(R.id.label);
         BookModel.list = new ArrayList<>();
 
+        // fill the data into  article table
+        fillArticlesInDb();
+
+        //load the data from companion app to list view
         loadBookData();
 
         if (!BookModel.getList().isEmpty()){
@@ -47,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListne
             label.setVisibility(View.VISIBLE);
         }
 
-        fillArticlesInDb();
     }
 
     public void setBookList(){
@@ -73,12 +66,8 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListne
     }
 
     public void fillArticlesInDb(){
-        ContentValues values = new ContentValues();
-        values.put(ArticleContentProvider.title,"articles");
-        values.put(ArticleContentProvider.thumbnail,"articles");
-        values.put(ArticleContentProvider.body,"articles body");
-        getContentResolver().insert(ArticleContentProvider.CONTENT_URI,values);
-
+        ArticleModel articleModel = new ArticleModel(this);
+        articleModel.storeArticlesDb();
     }
 
     @Override
