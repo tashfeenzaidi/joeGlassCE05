@@ -7,6 +7,7 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,7 +19,7 @@ import com.fullsail.ce05.R;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class MainActivity extends AppCompatActivity{
 
     private ListView listView;
     static final String PROVIDER_NAME = "com.fullsail.ce05.provider";
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             label.setVisibility(View.VISIBLE);
         }
 
+        fillArticlesInDb();
     }
 
     public void setBookList(){
@@ -68,33 +70,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         cursor.close();
     }
 
-    @NonNull
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-
-        CursorLoader cursorLoader = new CursorLoader(this,Uri.parse(URL),null,null,null,null);
-        return cursorLoader;
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-
-        if (data.moveToFirst()){
-            while (!data.isAfterLast()){
-                BookModel bookModel = new BookModel(
-                        data.getString(data.getColumnIndex("title"))
-                        ,data.getString(data.getColumnIndex("description"))
-                        ,data.getString(data.getColumnIndex("thumbnail"))
-                        ,data.getInt(data.getColumnIndex("_id"))
-                        ,data.getInt(data.getColumnIndex("book_id")));
-                BookModel.list.add(bookModel);
-                data.moveToNext();
-            }
-        }
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+    public void fillArticlesInDb(){
+        ContentValues values = new ContentValues();
+        values.put(ArticleContentProvider.title,"articles");
+        values.put(ArticleContentProvider.thumbnail,"articles");
+        values.put(ArticleContentProvider.body,"articles body");
+        getContentResolver().insert(ArticleContentProvider.CONTENT_URI,values);
 
     }
 }
